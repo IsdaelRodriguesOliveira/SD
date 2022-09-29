@@ -2,6 +2,7 @@ import time
 from tokenize import String
 import zmq
 import sys
+import json
 
 #QUANTITY_PORTS = sys.argv[1] or 1
 #INITIAL_PORT = sys.argv[2] or 8000
@@ -23,25 +24,16 @@ while True:
     decoded = bytes.decode(msg)
 
     print("Received:", decoded)
-
-    decoded = str.split(decoded)
-    if len(decoded) == 2:
-        a, b = decoded
-        
-    else:
-        operation = 'invalid'
-    b = str(decoded)
-    a = decoded[0]
-    print("A =", a)
-    print("B = ", b)
-#    if (operation == '+'):
-#        result = a+b
-#    elif (operation == '*'):
-#        result = a*b
-#    elif (operation == '**'):
-#        result = a**b
-#    else:
-#        result = 'invalid input'
+    msg = json.dumps(decoded, indent = 4)
+    a = str(msg[1:7])
+    b = str(msg[8:-1])
+    #b = str(b[7:-1])
+    #decoded = str.split(decoded)
+    #print("Received 2:", decoded)
+    #b = str(decoded)
+    #a = decoded[0]
+    print("A =", a, len(a))
+    print("B =", b, len(b))
 	
     s.send(str.encode("Mensagem recebida"))
     #s.send(str.encode("{:.2f}".format(result)))

@@ -2,6 +2,7 @@ import sys
 import zmq
 from random import *
 import time
+import threading
 
 """	if sys.argv[1] == '1':
 		port = 8001
@@ -46,8 +47,17 @@ def enviando_mensagem(topico, mensagem):
 
 	
 
-def main():
-	print("Iniciando conexão produtor")
+def main(i):
+	while True:
+		mensagem_escolhida = escolhendo_msg()
+		print(mensagem_escolhida)
+		topico_escolhido = escolhendo_topico()
+		print(topico_escolhido)
+		enviando_mensagem(topico_escolhido, mensagem_escolhida)
+		#time.sleep(1)
+		#a = input("diga meu fih")
+
+	"""print("Iniciando conexão produtor")
 	port = 8001
 	HOST = '192.168.18.6'
 	context = zmq.Context()
@@ -69,12 +79,12 @@ def main():
 
 		time.sleep(1)
 
-		print (a, op, b, '=', result)
+		print (a, op, b, '=', result)"""
 
 if __name__ == '__main__':
-	while True:
-		mensagem_escolhida = escolhendo_msg()
-		print(mensagem_escolhida)
-		topico_escolhido = escolhendo_topico()
-		print(topico_escolhido)
-		enviando_mensagem(topico_escolhido, mensagem_escolhida)
+	#threads = []
+
+	thread = threading.Thread(target=main, args=(0,))
+	thread.start()
+	thread.join()
+	#main()
