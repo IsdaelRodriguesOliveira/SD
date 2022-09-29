@@ -17,23 +17,27 @@ p1 = f"tcp://*:5001"
 s.bind("tcp://192.168.18.6:8001")
 #s.bind(p2)
 print("Conexão realizada trocador")
-while True:
-    time.sleep(5)
-    print("Mensagem trocador")
-    msg = s.recv()
-    decoded = bytes.decode(msg)
+def receber():
+    while True:
+        time.sleep(5)
+        print("Mensagem trocador")
+        msg = s.recv()
+        decoded = bytes.decode(msg)
 
-    print("Received:", decoded)
-    msg = json.dumps(decoded, indent = 4)
-    a = str(msg[1:7])
-    b = str(msg[8:-1])
-    #b = str(b[7:-1])
-    #decoded = str.split(decoded)
-    #print("Received 2:", decoded)
-    #b = str(decoded)
-    #a = decoded[0]
-    print("A =", a, len(a))
-    print("B =", b, len(b))
-	
-    s.send(str.encode("Mensagem recebida"))
-    #s.send(str.encode("{:.2f}".format(result)))
+        print("Received:", decoded)
+        msg = json.dumps(decoded, indent = 4)
+        a = str(msg[1:7])
+        b = str(msg[8:-1])
+        #b = str(b[7:-1])
+        #decoded = str.split(decoded)
+        #print("Received 2:", decoded)
+        #b = str(decoded)
+        #a = decoded[0]
+        print("A =", a, len(a))
+        print("B =", b, len(b))
+        
+        s.send(str.encode("Mensagem recebida"))
+        #s.send(str.encode("{:.2f}".format(result)))
+
+if __name__ == '__main__':
+    receber()
