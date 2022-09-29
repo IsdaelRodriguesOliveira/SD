@@ -1,4 +1,5 @@
 import time
+from tokenize import String
 import zmq
 import sys
 
@@ -24,20 +25,23 @@ while True:
     print("Received:", decoded)
 
     decoded = str.split(decoded)
-    if len(decoded) == 3:
-        a, operation, b = decoded
-        a = float (a)
-        b = float (b)
+    if len(decoded) == 2:
+        a, b = decoded
+        
     else:
         operation = 'invalid'
+    b = str(decoded)
+    a = decoded[0]
+    print("A =", a)
+    print("B = ", b)
+#    if (operation == '+'):
+#        result = a+b
+#    elif (operation == '*'):
+#        result = a*b
+#    elif (operation == '**'):
+#        result = a**b
+#    else:
+#        result = 'invalid input'
 	
-    if (operation == '+'):
-        result = a+b
-    elif (operation == '*'):
-        result = a*b
-    elif (operation == '**'):
-        result = a**b
-    else:
-        result = 'invalid input'
-	
-    s.send(str.encode("{:.2f}".format(result)))
+    s.send(str.encode("Mensagem recebida"))
+    #s.send(str.encode("{:.2f}".format(result)))
