@@ -9,7 +9,7 @@ def escolhendo_msg():
 	"Boa noite", "Boa tarde", "Tchau", "Oi", "Eai", "Opa", "Falou"]
 	
 	i = randint(0, 11)
-	#print(len(msg))
+
 	return msg[i]
 def escolhendo_topico():
 	topicos = ["fila_0", "fila_1", "fila_2", "fanout"]
@@ -26,8 +26,8 @@ def enviando_mensagem(topico, mensagem):
 	s.connect(p)
 	print("Conexão realizada produtor")
 
-	time.sleep(5)
-	print("Mensagem do produtor")
+	time.sleep(3)
+	print("Enviando a msg do produtor...")
 	
 
 	send_msg = str.encode(f"{topico} {mensagem}")
@@ -35,25 +35,20 @@ def enviando_mensagem(topico, mensagem):
 	msg = s.recv()
 	result = bytes.decode(msg)
 
-	time.sleep(1)
 
-def main(i):
+def main():
 	mensagem_escolhida = escolhendo_msg()
-	print(mensagem_escolhida)
+	print("Mensagem escolhida: ",mensagem_escolhida)
 	topico_escolhido = escolhendo_topico()
-	print(topico_escolhido)
+	print("Topico escolhido", topico_escolhido)
 	enviando_mensagem(topico_escolhido, mensagem_escolhida)
-	#time.sleep(1)
-	#a = input("diga meu fih")
+
 
 if __name__ == '__main__':
-	#threads = []
+
 	while True:
-		i = 0
 		time.sleep(5)
-		thread = threading.Thread(target=main, args=(i,))
+		thread = threading.Thread(target=main)
 		thread.start()
 		thread.join()
-		i += 1
 
-	#main()
