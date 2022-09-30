@@ -4,6 +4,11 @@ import zmq
 import sys
 import json
 
+fila_fila_0 = []
+fila_fila_1 = []
+fila_fila_2 = []
+fila_fanout = []
+
 #QUANTITY_PORTS = sys.argv[1] or 1
 #INITIAL_PORT = sys.argv[2] or 8000
 
@@ -37,7 +42,23 @@ def receber():
         print("B =", b, len(b))
         
         s.send(str.encode("Mensagem recebida"))
-        #s.send(str.encode("{:.2f}".format(result)))
+        adicionar_msg_lista(b,a)
+
+def adicionar_msg_lista(msg, topico):
+    if topico == "fila_0":
+        fila_fila_0.insert(0, str(msg))
+        print("Adicionado a fila 0 ", fila_fila_0[0])
+    elif  topico == "fila_1":
+        fila_fila_1.insert(0, str(msg))
+        print("Adicionado a fila 1 ", fila_fila_1[0])
+    elif topico == "fila_2":
+        fila_fila_2.insert(0, str(msg))
+        print("Adicionado a fila 2 ", fila_fila_2[0])
+    elif  topico == "fanout":
+        fila_fanout.insert(0, str(msg))
+        print("Adicionado a fila fanout ", fila_fanout[0])
+    else: 
+        print("Tópico da mensagem nao identificado Mensagem")
 
 if __name__ == '__main__':
     receber()
