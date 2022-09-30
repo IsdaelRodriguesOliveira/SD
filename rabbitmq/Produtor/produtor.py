@@ -4,14 +4,6 @@ from random import *
 import time
 import threading
 
-"""	if sys.argv[1] == '1':
-		port = 8001
-	elif sys.argv[1] == '2':
-		port = 8001
-	else:
-		print("Wrong arguments")
-		exit()
-"""
 def escolhendo_msg():
 	msg = ["Ola", "Tudo bem", "Bom dia", "Como vai", "Hello", 
 	"Boa noite", "Boa tarde", "Tchau", "Oi", "Eai", "Opa", "Falou"]
@@ -45,46 +37,23 @@ def enviando_mensagem(topico, mensagem):
 
 	time.sleep(1)
 
-	
-
 def main(i):
-	while True:
-		mensagem_escolhida = escolhendo_msg()
-		print(mensagem_escolhida)
-		topico_escolhido = escolhendo_topico()
-		print(topico_escolhido)
-		enviando_mensagem(topico_escolhido, mensagem_escolhida)
-		#time.sleep(1)
-		#a = input("diga meu fih")
-
-	"""print("Iniciando conexão produtor")
-	port = 8001
-	HOST = '192.168.18.6'
-	context = zmq.Context()
-	s  = context.socket(zmq.REQ)
-	p = f"tcp://{HOST}:{port}"
-	s.connect(p)
-	print("Conexão realizada produtor")
-	while True:
-		time.sleep(5)
-		print("Mensagem do produtor")
-		a = "{:.2f}".format(random()*10)
-		b = "{:.2f}".format(random()*10)
-		op = choice(["+", "*", "**"])
-
-		send_msg = str.encode(f"{a} {op} {b}")
-		s.send(send_msg)
-		msg = s.recv()
-		result = bytes.decode(msg)
-
-		time.sleep(1)
-
-		print (a, op, b, '=', result)"""
+	mensagem_escolhida = escolhendo_msg()
+	print(mensagem_escolhida)
+	topico_escolhido = escolhendo_topico()
+	print(topico_escolhido)
+	enviando_mensagem(topico_escolhido, mensagem_escolhida)
+	#time.sleep(1)
+	#a = input("diga meu fih")
 
 if __name__ == '__main__':
 	#threads = []
+	while True:
+		i = 0
+		time.sleep(5)
+		thread = threading.Thread(target=main, args=(i,))
+		thread.start()
+		thread.join()
+		i += 1
 
-	thread = threading.Thread(target=main, args=(0,))
-	thread.start()
-	thread.join()
 	#main()
