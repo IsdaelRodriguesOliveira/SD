@@ -9,6 +9,12 @@ fila_fila_1 = []
 fila_fila_2 = []
 fila_fanout = []
 
+#condicao_fila_0 = threading.Condition()
+"""fila_fila_0 = threading.RLock()
+fila_fila_1 = threading.RLock()
+fila_fila_2 = threading.RLock()
+fila_fanout = threading.RLock()"""
+
 #QUANTITY_PORTS = sys.argv[1] or 1
 #INITIAL_PORT = sys.argv[2] or 8000
 
@@ -76,7 +82,7 @@ def enviar_msg(fila_atual, porta: int):
 
     try:
        
-        msg = fila_atual[0]
+        msg = fila_atual[-1]
         send_msg = str.encode(f"{msg}")
         s.send(send_msg, flags=zmq.NOBLOCK)
         fila_atual.pop()
@@ -92,11 +98,18 @@ def enviar_msg(fila_atual, porta: int):
         else:
             traceback.print_exc()
 
-def verifica_filas(fila_atual):
-    porta = 8010
-    print(threading.current_thread)
+def verifica_filas(fila_atual, porta):
+    #porta = 8010
+    #fila_atual.acquire()
+    #print(threading.current_thread
     if len(fila_atual) != 0:
-        enviar_msg(fila_atual, porta)
+        if porta != 1:
+            enviar_msg(fila_atual, porta)
+        else:
+            mensagem_atual = fila_atual
+            for i in range(3):
+                enviar_msg(mensagem_atual, porta+i)
+            fila_atual.pop()
     else:
         print("Fila vazia")
 
@@ -111,23 +124,25 @@ if __name__ == '__main__':
         print("Thread de recebimento finalizada")
         print("-------------------------------")
         print("Iniciando thread de envio (fila 0), no Trocador")
-        #fila_fanout.insert(0,"Como vai")
-        thread_enviar_fila_0 = threading.Thread(target=verifica_filas, args=(fila_fila_0,))
+        """fila_fila_0.insert(0,"Como vai")
+        fila_fila_1.insert(0, "como foi")
+        fila_fila_2.insert(0, "como veio")"""
+        thread_enviar_fila_0 = threading.Thread(target=verifica_filas, args=(fila_fila_0, 8010,))
         thread_enviar_fila_0.start()
         thread_enviar_fila_0.join(timeout=2)
         print("Finalizando thread de envio (fila 0), no Trocador")
         print("Iniciando thread de envio (fila 1), no Trocador")
-        thread_enviar_fila_1 = threading.Thread(target=verifica_filas,args=(fila_fila_1,))
+        thread_enviar_fila_1 = threading.Thread(target=verifica_filas,args=(fila_fila_1, 8011, ))
         thread_enviar_fila_1.start()
         thread_enviar_fila_1.join(timeout=2)
         print("Finalizando thread de envio (fila 1), no Trocador")
         print("Iniciando thread de envio (fila 2), no Trocador")
-        thread_enviar_fila_2 = threading.Thread(target=verifica_filas, args=(fila_fila_2,))
+        thread_enviar_fila_2 = threading.Thread(target=verifica_filas, args=(fila_fila_2, 8012, ))
         thread_enviar_fila_2.start()
         thread_enviar_fila_2.join(timeout=2)
         print("Finalizando thread de envio (fila 2), no Trocador")
         print("Iniciando thread de envio (fila fanout), no Trocador")
-        thread_enviar_fila_fanout = threading.Thread(target=verifica_filas, args=(fila_fanout,))
+        thread_enviar_fila_fanout = threading.Thread(target=verifica_filas, args=(fila_fanout, 1))
         thread_enviar_fila_fanout.start()
         thread_enviar_fila_fanout.join(timeout=2)
         print("Finalizando thread de envio (fila fanout), no Trocador")

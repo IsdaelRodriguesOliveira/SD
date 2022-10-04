@@ -3,17 +3,20 @@ import time
 
 import zmq
 
-def receber():
+def receber(porta: int):
     print("Iniciando conexão com o Trocador")
     context = zmq.Context()
     s = context.socket(zmq.REP)
-
-    s.bind("tcp://192.168.18.6:8010")
+    PORTA = porta
+    HOST = '192.168.18.6'
+    p = f"tcp://{HOST}:{PORTA}"
+    #s.bind("tcp://192.168.18.6:{PORTA}")
+    s.bind(p)
     
 
     print("Conexão realizada")
 
-    time.sleep(3)
+    #time.sleep(3)
     print("Recebendo a msg...")
     msg = s.recv()
     decoded = bytes.decode(msg)
@@ -21,9 +24,11 @@ def receber():
     print("Mensagem recebida: ", decoded)  
     s.send(str.encode("Mensagem recebida"))
 if __name__ == '__main__':
+    print()
+    porta = input("Digite a porta que vc usara...")
     while True:
-        time.sleep(5)
+        time.sleep(1)
         print("Aguardando msg")
-        thread_receber = threading.Thread(target=receber)
+        thread_receber = threading.Thread(target=receber, args=(porta,))
         thread_receber.start()
         thread_receber.join()
