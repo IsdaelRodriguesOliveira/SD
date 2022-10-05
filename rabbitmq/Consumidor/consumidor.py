@@ -26,7 +26,7 @@ def receber(porta: int):
 if __name__ == '__main__':
     porta = input("Digite a porta que vc usara...")
     while True:
-        time.sleep(1)
+        time.sleep((1/4))
         print("Aguardando msg")
         thread_receber = threading.Thread(target=receber, args=(porta,))
         thread_receber.start()
