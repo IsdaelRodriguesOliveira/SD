@@ -24,7 +24,6 @@ def receber(porta: int):
     print("Mensagem recebida: ", decoded)  
     s.send(str.encode("Mensagem recebida"))
 if __name__ == '__main__':
-    print()
     porta = input("Digite a porta que vc usara...")
     while True:
         time.sleep(1)
