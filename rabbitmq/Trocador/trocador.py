@@ -84,7 +84,7 @@ def enviar_msg(fila_atual, porta: int):
     p = f"tcp://{HOST}:{PORT}"
     s.connect(p)
 
-    time.sleep(3)
+    time.sleep(2)
     print("...Enviando para o consumidor...")
 
     try:
@@ -141,21 +141,21 @@ if __name__ == '__main__':
         fila_fila_2.insert(0, "como veio")"""
         thread_enviar_fila_0 = threading.Thread(target=verifica_filas, args=(fila_fila_0, 8010, condicao_fila_0,))
         thread_enviar_fila_0.start()
-        thread_enviar_fila_0.join(timeout=2)
+        thread_enviar_fila_0.join(timeout=1)
         print("Finalizando thread de envio (fila 0), no Trocador")
         print("Iniciando thread de envio (fila 1), no Trocador")
         thread_enviar_fila_1 = threading.Thread(target=verifica_filas,args=(fila_fila_1, 8011, condicao_fila_1,))
         thread_enviar_fila_1.start()
-        thread_enviar_fila_1.join(timeout=2)
+        thread_enviar_fila_1.join(timeout=1)
         print("Finalizando thread de envio (fila 1), no Trocador")
         print("Iniciando thread de envio (fila 2), no Trocador")
         thread_enviar_fila_2 = threading.Thread(target=verifica_filas, args=(fila_fila_2, 8012, condicao_fila_0,))
         thread_enviar_fila_2.start()
-        thread_enviar_fila_2.join(timeout=2)
+        thread_enviar_fila_2.join(timeout=1)
         print("Finalizando thread de envio (fila 2), no Trocador")
         print("Iniciando thread de envio (fila fanout), no Trocador")
         thread_enviar_fila_fanout = threading.Thread(target=verifica_filas, args=(fila_fanout, 1, condicao_fanout))
         thread_enviar_fila_fanout.start()
-        thread_enviar_fila_fanout.join(timeout=2)
+        thread_enviar_fila_fanout.join(timeout=1)
         print("Finalizando thread de envio (fila fanout), no Trocador")
         print("Thread de envio finalizada")
