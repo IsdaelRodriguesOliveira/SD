@@ -29,7 +29,7 @@ def receber():
     #s.bind("tcp://192.168.18.6:8001")
     s.bind_to_random_port('tcp://192.168.18.6', min_port=8001, max_port=8002, max_tries=50)
 
-    time.sleep(1)
+    #time.sleep(1)
     print("Recebendo a msg...")
     try:
         msg = s.recv(flags=1)
