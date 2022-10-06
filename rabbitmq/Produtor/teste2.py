@@ -10,10 +10,10 @@ fila_fila_2 = []
 fila_fanout = []
 
 
-fila_fila_0 = threading.RLock()
-fila_fila_1 = threading.RLock()
-fila_fila_2 = threading.RLock()
-fila_fanout = threading.RLock()
+fila_0 = threading.RLock()
+fila_1 = threading.RLock()
+fila_2 = threading.RLock()
+fanout = threading.RLock()
 
 def adiciona(fila_atual):
     fila_atual.acquire()
@@ -23,4 +23,6 @@ if __name__ == '__main__':
     """thread_receber = threading.Thread(target=adiciona, args=(fila_fila_0,))
     thread_receber.start()
     thread_receber.join()"""
-    print("Fila atual", fila_fila_0)
+    print("Fila atual", fila_0)
+    fila_0.release()
+    print("Fila atual acquire", fila_0)
